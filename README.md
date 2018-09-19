@@ -31,3 +31,12 @@ atomic read val
  -> hit -> atomic cmpxchg with zero
     -> if zero -> exit spin_lock
 ```
+
+```
+mutex_lock()
+kernel/locking/mutex.c:__mutex_lock_common
+mutex_trylock
+ -> fail -> spin_lock(wait) -> try again
+                                   -> fail -> make waiter -> try again -> schedule -> again ...
+ -> hit -> __mutex_trylock_or_owner() -> locked!
+```
